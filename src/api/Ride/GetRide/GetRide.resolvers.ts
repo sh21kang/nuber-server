@@ -11,11 +11,16 @@ const resolvers: Resolvers = {
         const user: User = req.user;
 
         try {
+          
           const ride = await Ride.findOne({
             id: args.rideId
-          });
+          },
+          {relations : ["passenger", "driver"]}
+        );
+          
           if (ride) {
             if (ride.passengerId === user.id || ride.driverId === user.id) {
+              console.log(ride);
               return {
                 ok: true,
                 error: null,
@@ -36,6 +41,7 @@ const resolvers: Resolvers = {
             };
           }
         } catch (error) {
+          
           return {
             ok: false,
             error: error.message,

@@ -8,9 +8,11 @@ const resolvers = {
         (_, __, { pubSub }) => pubSub.asyncIterator("rideUpdate"),
         (payload, _, { context }) => {
           const user: User = context.currentUser;
+          console.log('pay', payload);
           const {
             RideStatusSubscription: { driverId, passengerId }
           } = payload;
+          console.log(user.id === driverId || user.id === passengerId);
           return user.id === driverId || user.id === passengerId;
         }
       )
